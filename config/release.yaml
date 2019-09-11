@@ -1,0 +1,81 @@
+# How to connect to JIRA. Can also include `Username` and `Password`
+Connection:
+  Domain: https://issues.jboss.org # your JIRA instance
+
+# What issues to search for. Uses JQL syntax.
+Query: Project=ENTESB AND resolution = "Unresolved" AND IssueType in ("Bug", "Enhancement", "Feature Request") and fixVersion=fuse-7.5-GA
+
+# The workflow we want to analyse. By convention, the first stage should be
+# the backlog / initial state, and the final stage should indicate the work
+# is done.
+#
+# We map analytics names to JIRA status names. It's possible to collapse
+# multiple JIRA statuses into a single workflow stage, as with `QA` below.
+Workflow:
+  Backlog:
+    - "Release Backlog"
+    - "Sprint Backlog"
+  Development:
+    - "In Development"
+    - "Validatin Failed"
+  Review: "In Review"
+  Prod:
+    - "Productization Backlog"
+    - "In Productization"
+  Validation:
+    - "Validation Backlog"
+    - "In Validation"
+  Done: Done
+
+# What outputs to produce. These are all optional. If an option isn't set
+# the relevant metric will not be produced.
+
+Output:
+
+  # CSV files with raw data for input to other tools or further analysis in a spreadsheet
+  # If you use .json or .xlsx as the extension, you can get JSON data files or Excel
+  # spreadsheets instead
+
+  Cycle time data: cycletime.csv
+  CFD data: cfd.csv
+  Scatterplot data: scatterplot.csv
+  Histogram data: histogram.csv
+  Throughput data: throughput.csv
+  Percentiles data: percentiles.csv
+  Impediments data: impediments.csv
+
+  # Various charts
+
+  Scatterplot chart: scatterplot.png
+  Scatterplot chart title: Cycle time scatter plot
+
+  Histogram chart: histogram.png
+  Histogram chart title: Cycle time histogram
+
+  CFD chart: cfd.png
+  CFD chart title: Cumulative Flow Diagram
+
+  Throughput chart: throughput.png
+  Throughput chart title: Throughput trend
+
+  Burnup chart: burnup.png
+  Burnup chart title: Burn-up
+
+  WIP chart: wip.png
+  WIP chart title: Work in Progress
+
+  Ageing WIP chart: ageing-wip.png
+  Ageing WIP chart title: Ageing WIP
+
+  Net flow chart: net-flow.png
+  Net flow chart title: Net flow
+
+  Impediments window: 6
+  Impediments chart: impediments.png
+  Impediments chart title: Number of impediments
+  Impediments days chart: impediments-days.png
+  Impediments days chart title: Total impeded days
+  Impediments status chart: impediments-status.png
+  Impediments status chart title: Number of impediments by status
+  Impediments status days chart: impediments-status-days.png
+  Impediments status days chart title: Total impeded days by status
