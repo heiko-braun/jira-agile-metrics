@@ -9,7 +9,8 @@ import base64
 import zipfile
 import jinja2
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
+
 from jira import JIRA
 
 from ..config import config_to_options, CALCULATORS, ConfigError
@@ -31,6 +32,16 @@ logger = logging.getLogger(__name__)
 @app.route("/")
 def index():
     return render_template('index.html', max_results=request.args.get('max_results', ""))
+
+@app.route('/<path:path>')
+def static_proxy(path):
+  # send_static_file will guess the correct MIME type
+  return app.send_static_file(path)
+
+@app.route("/config")
+def config():
+    itemList = os.listdir("/config")
+    return render_template('browse.html', itemList=itemList)
 
 @app.route("/run", methods=['POST'])
 def run():

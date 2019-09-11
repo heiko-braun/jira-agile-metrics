@@ -11,7 +11,13 @@ RUN pip install --no-cache-dir -r /requirements.txt
 COPY . /app
 RUN pip install --no-cache-dir /app
 
-# Configure nginx to run flask; entry point is taken frmo uwsgi.ini
+# Config will be read from /config
+COPY ./config /config
+
+# Outputs will be written to the /data volume 
+WORKDIR /data
+
+# Configure nginx to run flask; entry point is taken from uwsgi.ini
 ENV STATIC_PATH=/app/jira_agile_metrics/webapp/static
 
 # Run with a headless matplotlib backend
