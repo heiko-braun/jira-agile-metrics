@@ -13,3 +13,5 @@ pydicti
 openpyxl
 flask
 Jinja2
+Blueprint
+flask_autoindex

@@ -9,7 +9,8 @@ import base64
 import zipfile
 import jinja2
 
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, Blueprint
+from flask_autoindex import AutoIndexBlueprint
 
 from jira import JIRA
 
@@ -25,6 +26,10 @@ app = Flask('jira-agile-metrics',
     static_folder=static_folder
 )
 
+auto_bp = Blueprint('auto_bp', __name__)
+AutoIndexBlueprint(auto_bp, browse_root='/tmp/')
+app.register_blueprint(auto_bp, url_prefix='/explore')
+
 app.jinja_loader = jinja2.PackageLoader('jira_agile_metrics.webapp', 'templates')
 
 logger = logging.getLogger(__name__)
@@ -32,11 +37,6 @@ logger = logging.getLogger(__name__)
 @app.route("/")
 def index():
     return render_template('index.html', max_results=request.args.get('max_results', ""))
-
-@app.route('/<path:path>')
-def static_proxy(path):
-  # send_static_file will guess the correct MIME type
-  return app.send_static_file(path)
 
 @app.route("/config")
 def config():
