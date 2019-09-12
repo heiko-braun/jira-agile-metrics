@@ -1,13 +1,2 @@
-# To-do
+- /uwsgi-nginx-entrypoint.sh: line 45: /etc/nginx/nginx.conf: Permission denied
 
-## Ideas
-
-- Forecast should run in epic order, not outcome-then-epic?
-
-## Bugs
-
-## Tests
-
-## Docs
-
-## New reports
