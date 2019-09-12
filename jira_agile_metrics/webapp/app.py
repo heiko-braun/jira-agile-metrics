@@ -10,7 +10,9 @@ import zipfile
 import jinja2
 import os
 
-from flask import Flask, render_template, request, send_from_directory, Blueprint
+from subprocess import Popen
+
+from flask import Flask, render_template, request, send_from_directory, Blueprint, Response
 from flask_autoindex import AutoIndexBlueprint
 
 from jira import JIRA
@@ -84,8 +86,14 @@ def run():
 
 @app.route("/batch")
 def batch():    
-    myCmd = os.popen('/batch-entrypoint.sh').read()
-    return myCmd
+    
+    args = request.args
+    if "async" in args:        
+        p = Popen(['/batch-entrypoint.sh'])
+        return Response("Started batch process ...", status=201, mimetype='text/plain')
+    else:
+        myCmd = os.popen('/batch-entrypoint.sh').read()
+        return Response(myCmd, mimetype='text/plain')
 
 # Helpers
 
