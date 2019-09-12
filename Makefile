@@ -1,4 +1,4 @@
-IMAGE_NAME ?= jira_metrics
+IMAGE_NAME ?= jira_metrics-openshift
 TARGET_IMAGE_NAME ?= jira_metrics
 CURRENT_DIR = $(shell pwd)
 
@@ -13,6 +13,10 @@ run-debug:
 .PHONY: install
 install:
 	pip3 install --no-cache-dir ./
+
+.PHONY: openshift-image
+openshift-image:
+	docker build -f ./openshift-image/Dockerfile -t ${IMAGE_NAME} .
 
 .PHONY: image
 image:
