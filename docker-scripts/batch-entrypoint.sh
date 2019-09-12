@@ -13,6 +13,6 @@ for config in $(ls /config/*) ; do
     if [ "${extension}" == "yml" ] || [ "${extension}" == "yaml" ] ; then
         mkdir -p ${output}
         rm ${output}/*
-        jira-agile-metrics -vv --output-directory ${output} $@ ${config} 2>&1 | tee ${output}/metrics.log
+        jira-agile-metrics -vv --output-directory ${output} $@ ${config} --username "$JIRA_USER" --password "$JIRA_PASS" 2>&1 | tee ${output}/metrics.log
     fi
 done
