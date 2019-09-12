@@ -51,6 +51,20 @@ RUN chgrp -R 0 /var/log /var/cache /run/pid /spool/nginx /var/run /run /tmp /etc
     chmod -R 777 ${HOME} /etc/passwd
 
 # enter
-WORKDIR ${HOME}
+#WORKDIR ${HOME}
+
+# Config will be read from /config
+VOLUME /config
+
+# Outputs will be written to the /data volume 
+WORKDIR /data
+VOLUME /data
+
+# Run with a headless matplotlib backend
+ENV MPLBACKEND="agg"
+
+COPY docker-scripts/batch-entrypoint.sh /batch-entrypoint.sh
+RUN chmod +x /batch-entrypoint.sh
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["supervisord"]
