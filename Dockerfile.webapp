@@ -12,7 +12,7 @@ COPY . /app
 RUN pip install --no-cache-dir /app
 
 # Config will be read from /config
-COPY ./config /config
+VOLUME /config
 
 # Outputs will be written to the /data volume 
 WORKDIR /data
@@ -23,3 +23,6 @@ ENV STATIC_PATH=/app/jira_agile_metrics/webapp/static
 
 # Run with a headless matplotlib backend
 ENV MPLBACKEND="agg"
+
+ADD docker-scripts/batch-entrypoint.sh /batch-entrypoint.sh
+RUN chmod +x /batch-entrypoint.sh

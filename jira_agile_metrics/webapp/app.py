@@ -8,6 +8,7 @@ import tempfile
 import base64
 import zipfile
 import jinja2
+import os
 
 from flask import Flask, render_template, request, send_from_directory, Blueprint
 from flask_autoindex import AutoIndexBlueprint
@@ -26,10 +27,15 @@ app = Flask('jira-agile-metrics',
     static_folder=static_folder
 )
 
-# serve the data dir
+# auto index /data
 auto_bp = Blueprint('auto_bp', __name__)
 AutoIndexBlueprint(auto_bp, browse_root='/data')
 app.register_blueprint(auto_bp, url_prefix='/data')
+
+# auto index /config
+auto_bp2 = Blueprint('auto_bp2', __name__)
+AutoIndexBlueprint(auto_bp2, browse_root='/config')
+app.register_blueprint(auto_bp2, url_prefix='/config')
 
 app.jinja_loader = jinja2.PackageLoader('jira_agile_metrics.webapp', 'templates')
 
@@ -75,6 +81,11 @@ def run():
         has_error=has_error,
         log=log_buffer.getvalue()
     )
+
+@app.route("/batch")
+def batch():    
+    myCmd = os.popen('/batch-entrypoint.sh').read()
+    return myCmd
 
 # Helpers
 
