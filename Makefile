@@ -1,7 +1,6 @@
 IMAGE_NAME ?= jira_metrics
 TARGET_IMAGE_NAME ?= jira_metrics
 CURRENT_DIR = $(shell pwd)
-DOCKERFILE ?= Dockerfile.webapp
 
 .PHONY: run
 run:	
@@ -17,7 +16,7 @@ install:
 
 .PHONY: image
 image:
-	docker build . -f ${DOCKERFILE} -t ${IMAGE_NAME}
+	docker build . -f Dockerfile.webapp -t ${IMAGE_NAME}
 
 .PHONY: push
 push:
