@@ -16,6 +16,7 @@ COPY ./config /config
 
 # Outputs will be written to the /data volume 
 WORKDIR /data
+VOLUME /data
 
 # Configure nginx to run flask; entry point is taken from uwsgi.ini
 ENV STATIC_PATH=/app/jira_agile_metrics/webapp/static

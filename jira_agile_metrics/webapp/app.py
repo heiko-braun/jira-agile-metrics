@@ -26,9 +26,10 @@ app = Flask('jira-agile-metrics',
     static_folder=static_folder
 )
 
+# serve the data dir
 auto_bp = Blueprint('auto_bp', __name__)
-AutoIndexBlueprint(auto_bp, browse_root='/tmp/')
-app.register_blueprint(auto_bp, url_prefix='/explore')
+AutoIndexBlueprint(auto_bp, browse_root='/data')
+app.register_blueprint(auto_bp, url_prefix='/data')
 
 app.jinja_loader = jinja2.PackageLoader('jira_agile_metrics.webapp', 'templates')
 
@@ -37,11 +38,6 @@ logger = logging.getLogger(__name__)
 @app.route("/")
 def index():
     return render_template('index.html', max_results=request.args.get('max_results', ""))
-
-@app.route("/config")
-def config():
-    itemList = os.listdir("/config")
-    return render_template('browse.html', itemList=itemList)
 
 @app.route("/run", methods=['POST'])
 def run():
