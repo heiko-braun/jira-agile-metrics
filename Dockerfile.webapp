@@ -34,6 +34,8 @@ VOLUME /config
 WORKDIR /data
 VOLUME /data
 
+EXPOSE 8080:8080
+
 # Run with a headless matplotlib backend
 ENV MPLBACKEND="agg"
 
