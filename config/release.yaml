@@ -17,7 +17,7 @@ Workflow:
     - "Sprint Backlog"
   Development:
     - "In Development"
-    - "Validatin Failed"
+    - "Validation Failed"
   Review: "In Review"
   Prod:
     - "Productization Backlog"
