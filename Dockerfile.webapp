@@ -2,11 +2,22 @@ FROM tiangolo/uwsgi-nginx-flask:python3.7
 
 COPY docker-scripts/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-COPY nginx/nginx.conf /app/nginx.conf
-COPY nginx/conf.d/nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY openshift-image/nginx.conf /app/nginx.conf
+COPY openshift-image/nginx.conf /etc/nginx/nginx.conf
+COPY openshift-image/uwsgi.ini /etc/uwsgi/uwsgi.ini
 
 COPY docker-scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+# image permission on openshift
+RUN touch /var/log/supervisor/supervisord.log
+
+# https://docs.openshift.com/container-platform/3.3/creating_images/guidelines.html
+RUN chgrp -R 0 /var/log /var/cache /var/run /run /tmp /etc/uwsgi /etc/nginx && \
+    chmod -R g+rwX /var/log /var/cache /var/run /run /tmp /etc/uwsgi /etc/nginx && \
+    chown -R nginx:root /app && \
+    chmod -R 777 /etc/passwd
+
 
 # Install requirments first to make future rebuilds faster
 COPY ./requirements.txt /requirements.txt
