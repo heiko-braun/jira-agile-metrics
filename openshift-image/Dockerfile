@@ -11,8 +11,8 @@ COPY ./requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -r /requirements.txt
 
 # Install app and binary
-COPY . /opt/repo/src
-RUN pip install --no-cache-dir ${HOME}/src
+COPY . /app
+RUN pip install --no-cache-dir /app
 
 # Copy the configuration file from the current directory and paste 
 # it inside the container to use it as Nginx's default config.
@@ -47,8 +47,8 @@ RUN ln -s /usr/local/bin/docker-entrypoint.sh / && \
 # https://docs.openshift.com/container-platform/3.3/creating_images/guidelines.html
 RUN chgrp -R 0 /var/log /var/cache /run/pid /spool/nginx /var/run /run /tmp /etc/uwsgi /etc/nginx && \
     chmod -R g+rwX /var/log /var/cache /run/pid /spool/nginx /var/run /run /tmp /etc/uwsgi /etc/nginx && \
-    chown -R nginx:root ${HOME} && \
-    chmod -R 777 ${HOME} /etc/passwd
+    chown -R nginx:root /app && \
+    chmod -R 777 /etc/passwd
 
 # enter
 #WORKDIR ${HOME}
