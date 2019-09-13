@@ -6,7 +6,7 @@ for config in $(ls /config/*) ; do
 
     extension="${filename##*.}"
     filename="${filename%.*}"
-    output="/data/${filename}"
+    output="/data/output/${filename}"
 
     extension="$(echo ${extension} | tr '[:upper:]' '[:lower:]')"
 

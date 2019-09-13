@@ -31,7 +31,7 @@ app = Flask('jira-agile-metrics',
 
 # auto index /data
 auto_bp = Blueprint('auto_bp', __name__)
-AutoIndexBlueprint(auto_bp, browse_root='/data')
+AutoIndexBlueprint(auto_bp, browse_root='/data/output')
 app.register_blueprint(auto_bp, url_prefix='/data')
 
 # auto index /config
