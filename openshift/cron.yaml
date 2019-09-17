@@ -1,18 +1,15 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: pi
+  name: batch-metrics
 spec:
-  schedule: "* */1 * * *"  
+  schedule: "0 * * * *"  
   jobTemplate:             
     spec:
-      template:
-        metadata:
-          labels:          
-            parent: "cronjobpi"
+      template:       
         spec:
           containers:
-          - name: pi
+          - name: batch-metrics
             image: perl
-            command: ["curl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+            command: ["curl",  "http://metrics-ipaas-bots.b6ff.rh-idev.openshiftapps.com/batch?async=true"]
           restartPolicy: OnFailure 
