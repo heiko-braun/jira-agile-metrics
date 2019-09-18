@@ -3,7 +3,7 @@ Connection:
   Domain: https://issues.jboss.org # your JIRA instance
 
 # What issues to search for. Uses JQL syntax.
-Query: Project=ENTESB AND resolution = "Unresolved" AND IssueType in ("Bug", "Enhancement", "Feature Request") and fixVersion=fuse-7.5-GA
+Query: Project=ENTESB AND IssueType in ("Bug", "Enhancement", "Feature Request") and fixVersion=fuse-7.5-GA
 
 # The workflow we want to analyse. By convention, the first stage should be
 # the backlog / initial state, and the final stage should indicate the work
@@ -25,7 +25,10 @@ Workflow:
   Validation:
     - "Validation Backlog"
     - "In Validation"
-  Done: Done
+  Done: 
+    - Done
+    - Closed
+    - Resolved
 
 # What outputs to produce. These are all optional. If an option isn't set
 # the relevant metric will not be produced.
